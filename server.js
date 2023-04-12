@@ -15,11 +15,12 @@ const entrySchema = new mongoose.Schema({
 
 const Entry = mongoose.model('Entry', entrySchema);
 
+
 app.use((req, res) => {
   const entry = new Entry({ip: req.clientIp})
   entry.save().then(() => console.log('entry saved'))
 })
 
-const PORT = process.env.PORT || 3000;
+app.get('/', (req, res) => res.send('uwu'))
 
-app.listen(PORT, () => console.log(`server is live on ::${PORT}`));
+app.listen(process.env.PORT, () => console.log(`server is live`));
