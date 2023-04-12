@@ -2,7 +2,8 @@ const express = require('express');
 const app = express();
 const requestIp = require('request-ip')
 
-app.use(express.static('public'))
+try {
+  app.use(express.static('public'))
 app.use(requestIp.mw())
 
 const mongoose = require('mongoose');
@@ -24,3 +25,7 @@ app.use((req, res) => {
 app.get('/', (req, res) => res.send('uwu'))
 
 app.listen(process.env.PORT, () => console.log(`server is live`));
+
+} catch(err) {
+  console.log('error', err);
+}
