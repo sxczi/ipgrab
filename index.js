@@ -1,0 +1,24 @@
+const express = require('express');
+const app = express();
+const requestIp = require('request-ip')
+app.use(express.static('public'))
+app.use(requestIp.mw())
+
+const mongoose = require('mongoose');
+
+mongoose.connect(`mongodb+srv://lara:ELtwK0WAYabVakGo@cluster0.6z7o1.mongodb.net/?retryWrites=true&w=majority`)
+
+const entrySchema = new mongoose.Schema({
+    ip: String
+})
+
+const Entry = mongoose.model('Entry', entrySchema);
+
+app.use((req, res) => {
+  const entry = new Entry({ip: req.clientIp})
+  entry.save().then(() => console.log('entry saved'))
+})
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => console.log(`server is live on ::${PORT}`));
